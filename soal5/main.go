@@ -1,11 +1,11 @@
-package demo
+package main
 
 import (
 	"fmt"
 	"strings"
 )
 
-func getDemolitionScore(arr []int, k int) int64 {
+func GetDemolitionScore(arr []int, k int) int64 {
 	memo := map[string]int64{}
 	var key = func(a []int, k int) string {
 		sb := strings.Builder{}
@@ -65,4 +65,10 @@ func getDemolitionScore(arr []int, k int) int64 {
 	}
 	cp := append([]int(nil), arr...)
 	return best(cp, k)
+}
+
+func main() {
+	arr := []int{3, 1, 5, 6, 2}
+	k := 2
+	fmt.Println(GetDemolitionScore(arr, k))
 }

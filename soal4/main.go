@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"sort"
 )
 
@@ -11,7 +12,11 @@ type dsu struct{ p, r []int }
 func newDSU(n int) *dsu {
 	p := make([]int, n+1)
 	r := make([]int, n+1)
-	for i := 1; i <= n; i++ {
+	// loop using range
+	for i := range p {
+		if i == 0 {
+			continue
+		}
 		p[i] = i
 	}
 	return &dsu{p, r}
@@ -40,10 +45,11 @@ func (d *dsu) unite(a, b int) bool {
 func GetMinimumCostMST(graph_nodes int, graph_from, graph_to, graph_weight []int, source, destination int) int {
 	m := len(graph_from)
 	edges := make([]edge, m)
-	for i := 0; i < m; i++ {
+	// loop using range
+	for i := range graph_from {
 		edges[i] = edge{graph_from[i], graph_to[i], graph_weight[i]}
 	}
-	// Build MST by Kruskal
+	// MST by Kruskal
 	sort.Slice(edges, func(i, j int) bool { return edges[i].w < edges[j].w })
 	d := newDSU(graph_nodes)
 	adj := make([][]edge, graph_nodes+1)
@@ -92,4 +98,16 @@ func GetMinimumCostMST(graph_nodes int, graph_from, graph_to, graph_weight []int
 		return -1
 	}
 	return sum
+}
+
+func main() {
+	graph_nodes := 3
+	graph_from := []int{1, 2, 1}
+	graph_to := []int{2, 3, 3}
+	graph_weight := []int{5, 3, 4}
+	source := 1
+	destination := 3
+
+	res := GetMinimumCostMST(graph_nodes, graph_from, graph_to, graph_weight, source, destination)
+	fmt.Println(res) // expected output: 7
 }
